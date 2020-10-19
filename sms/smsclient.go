@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/hooklift/gowsdl/soap"
+	"mailer/soap"
 )
 
 var (
