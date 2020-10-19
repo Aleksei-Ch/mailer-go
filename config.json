@@ -17,7 +17,7 @@
         "password": "password"
     },
     "proxy": {
-        "enabled": false,
+        "enabled": true,
         "host": "localhost",
         "port": 3127,
         "user": "localhost",
