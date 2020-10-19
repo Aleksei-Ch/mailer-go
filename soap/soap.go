@@ -345,6 +345,11 @@ func (s *Client) call(ctx context.Context, soapAction string, request, response 
 	var url *url.URL
 	if proxy != "" {
 		url, _ = url.Parse(proxy)
+		proxyAuth := os.Getenv("HTTP_PROXY_AUTH")
+		if proxyAuth != "" {
+			basicAuth := "Basic " + proxyAuth
+			req.Header.Add("Proxy-Authorization", basicAuth)
+		}
 	}
 
 	client := s.opts.client
