@@ -78,7 +78,7 @@ func (sms *Sms) Validate() map[string]string {
 	sms.To = strings.ReplaceAll(sms.To, ")", "")
 	sms.To = strings.ReplaceAll(sms.To, "-", "")
 
-	if sms.To == "" || !emailRegexp.Match([]byte(sms.To)) {
+	if sms.To == "" || !phoneRegexp.Match([]byte(sms.To)) {
 		errors["To"] = "Not a valid phone number. Available patterns: 71112223344 or +71112223344"
 	}
 	if sms.Body == "" {
