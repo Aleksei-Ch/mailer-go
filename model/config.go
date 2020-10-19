@@ -8,10 +8,11 @@ type Config struct {
 		LogRotationDays int64  `json:"logRotationDays"`
 	} `json:"log"`
 	Mail struct {
-		Server   string `json:"server"`
-		Port     uint16 `json:"port"`
-		User     string `json:"user"`
-		Password string `json:"password"`
+		LocalServer string `json:"localServer"`
+		Server      string `json:"server"`
+		Port        uint16 `json:"port"`
+		User        string `json:"user"`
+		Password    string `json:"password"`
 	} `json:"mail"`
 	Sms struct {
 		From     string `json:"from"`

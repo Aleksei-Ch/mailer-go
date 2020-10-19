@@ -5,6 +5,7 @@
         "logRotationDays": 2
     },
     "mail": {
+        "localServer": "localhost",
         "server": "smtp.server.com",
         "port": 587,
         "user": "",

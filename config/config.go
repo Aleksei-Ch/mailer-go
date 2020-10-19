@@ -17,5 +17,9 @@ func Init() model.Config {
 		fmt.Println("Cannot read config file:", err)
 		os.Exit(1)
 	}
+	// Setup proxy
+	if c.Proxy.Enabled {
+		os.Setenv("HTTP_PROXY", fmt.Sprintf("%s:%v", c.Proxy.Host, c.Proxy.Port))
+	}
 	return c
 }

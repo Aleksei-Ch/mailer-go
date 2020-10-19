@@ -57,6 +57,12 @@ func SendEmail(email *model.Email) {
 				return
 			}
 			defer client.Quit()
+
+			if err := client.Hello(conf.LocalServer); err != nil {
+				log.Error(err)
+				return
+			}
+
 			writer, err := client.Data()
 			if err != nil {
 				log.Error(err)
