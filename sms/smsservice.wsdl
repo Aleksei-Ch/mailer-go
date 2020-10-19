@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.devinosms.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://ws.devinosms.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Сервис позволяющий отправлять сообщения и получать их статусы</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.devinosms.com">
+      <s:element name="GetMessageState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="messageID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMessageStateResult" type="tns:SmsMessageStateInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SmsMessageStateInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CreationDateUtc" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="SubmittedDateUtc" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReportedDateUtc" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="TimeStampUtc" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="State" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="StateDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Price" nillable="true" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetSessionID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSessionIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSessionIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="tns:Message" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Message">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DelayUntilUtc" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationAddresses" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceAddress" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReceiptRequested" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Validity" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Optionals" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendMessageResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMessageByTimeZone">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="data" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="sendDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="validity" nillable="true" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMessageByTimeZoneResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendMessageByTimeZoneResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMessageByTimeZoneToAddresses">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAddresses" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="data" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="sendDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="validity" nillable="true" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMessageByTimeZoneToAddressesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendMessageByTimeZoneToAddressesResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBalance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBalanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBalanceResult" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIncomingMessages">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="minDateUTC" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="maxDateUTC" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIncomingMessagesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetIncomingMessagesResult" type="tns:ArrayOfIncomingMessage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfIncomingMessage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="IncomingMessage" nillable="true" type="tns:IncomingMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="IncomingMessage">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Data" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationAddress" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreatedDateUtc" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetStatistics">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="startDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="endDateTime" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatisticsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatisticsResult" type="tns:DeliveryStatistics" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DeliveryStatistics">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Sent" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Delivered" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Errors" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="InProcess" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Expired" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Rejected" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Optimized" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Tarificated" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalWithErrors" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DeliveryRatio" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetMessageStateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMessageState" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageStateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMessageStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSessionIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSessionID" />
+  </wsdl:message>
+  <wsdl:message name="GetSessionIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSessionIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageByTimeZoneSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMessageByTimeZone" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageByTimeZoneSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMessageByTimeZoneResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageByTimeZoneToAddressesSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMessageByTimeZoneToAddresses" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageByTimeZoneToAddressesSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMessageByTimeZoneToAddressesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBalanceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBalance" />
+  </wsdl:message>
+  <wsdl:message name="GetBalanceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBalanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetIncomingMessagesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetIncomingMessages" />
+  </wsdl:message>
+  <wsdl:message name="GetIncomingMessagesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetIncomingMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatisticsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatistics" />
+  </wsdl:message>
+  <wsdl:message name="GetStatisticsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatisticsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SmsServiceSoap">
+    <wsdl:operation name="GetMessageState">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Возвращает статус сообщения и время обновления статуса</wsdl:documentation>
+      <wsdl:input message="tns:GetMessageStateSoapIn" />
+      <wsdl:output message="tns:GetMessageStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSessionID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Возвращает идентификатор сессии для пользователя</wsdl:documentation>
+      <wsdl:input message="tns:GetSessionIDSoapIn" />
+      <wsdl:output message="tns:GetSessionIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Отправляет сообщение адресатам и возвращает системные идентификаторы сообщений</wsdl:documentation>
+      <wsdl:input message="tns:SendMessageSoapIn" />
+      <wsdl:output message="tns:SendMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMessageByTimeZone">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Отправляет сообщение учитывая часовой пояс получателя</wsdl:documentation>
+      <wsdl:input message="tns:SendMessageByTimeZoneSoapIn" />
+      <wsdl:output message="tns:SendMessageByTimeZoneSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMessageByTimeZoneToAddresses">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Отправляет сообщение учитывая часовой пояс получателя на указанные адреса получателей</wsdl:documentation>
+      <wsdl:input message="tns:SendMessageByTimeZoneToAddressesSoapIn" />
+      <wsdl:output message="tns:SendMessageByTimeZoneToAddressesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBalance">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Возвращает баланс пользователя текущей сессии</wsdl:documentation>
+      <wsdl:input message="tns:GetBalanceSoapIn" />
+      <wsdl:output message="tns:GetBalanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIncomingMessages">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Возвращает входящие сообщения пользователя текущей сессии</wsdl:documentation>
+      <wsdl:input message="tns:GetIncomingMessagesSoapIn" />
+      <wsdl:output message="tns:GetIncomingMessagesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatistics">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Возвращает статистику отправленных смс за заданный промежуток времени</wsdl:documentation>
+      <wsdl:input message="tns:GetStatisticsSoapIn" />
+      <wsdl:output message="tns:GetStatisticsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SmsServiceSoap" type="tns:SmsServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetMessageState">
+      <soap:operation soapAction="http://ws.devinosms.com/GetMessageState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSessionID">
+      <soap:operation soapAction="http://ws.devinosms.com/GetSessionID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <soap:operation soapAction="http://ws.devinosms.com/SendMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessageByTimeZone">
+      <soap:operation soapAction="http://ws.devinosms.com/SendMessageByTimeZone" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessageByTimeZoneToAddresses">
+      <soap:operation soapAction="http://ws.devinosms.com/SendMessageByTimeZoneToAddresses" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBalance">
+      <soap:operation soapAction="http://ws.devinosms.com/GetBalance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIncomingMessages">
+      <soap:operation soapAction="http://ws.devinosms.com/GetIncomingMessages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatistics">
+      <soap:operation soapAction="http://ws.devinosms.com/GetStatistics" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SmsServiceSoap12" type="tns:SmsServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetMessageState">
+      <soap12:operation soapAction="http://ws.devinosms.com/GetMessageState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSessionID">
+      <soap12:operation soapAction="http://ws.devinosms.com/GetSessionID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://ws.devinosms.com/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessageByTimeZone">
+      <soap12:operation soapAction="http://ws.devinosms.com/SendMessageByTimeZone" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessageByTimeZoneToAddresses">
+      <soap12:operation soapAction="http://ws.devinosms.com/SendMessageByTimeZoneToAddresses" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBalance">
+      <soap12:operation soapAction="http://ws.devinosms.com/GetBalance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIncomingMessages">
+      <soap12:operation soapAction="http://ws.devinosms.com/GetIncomingMessages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatistics">
+      <soap12:operation soapAction="http://ws.devinosms.com/GetStatistics" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SmsService">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Сервис позволяющий отправлять сообщения и получать их статусы</wsdl:documentation>
+    <wsdl:port name="SmsServiceSoap" binding="tns:SmsServiceSoap">
+      <soap:address location="https://ws-wsdl.devinotele.com/smsservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SmsServiceSoap12" binding="tns:SmsServiceSoap12">
+      <soap12:address location="https://ws-wsdl.devinotele.com/smsservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

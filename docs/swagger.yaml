@@ -1,0 +1,162 @@
+basePath: /api/v1
+definitions:
+  model.Email:
+    properties:
+      attachments:
+        additionalProperties:
+          type: string
+        type: object
+      bcc:
+        example: secret_user@server.ru;secret_user2@server.ru
+        type: string
+      body:
+        example: |-
+          This is a body of the message.
+
+          Best regards.
+        type: string
+      cc:
+        example: copy_user@server.ru;copy_user2@server.ru
+        type: string
+      from:
+        example: user@server.ru
+        type: string
+      title:
+        example: Hi there!
+        type: string
+      to:
+        example: recipient1@server.ru;recipient2@server.ru
+        type: string
+    type: object
+  model.GlobalResponse:
+    properties:
+      errors:
+        type: object
+      payload:
+        type: object
+      timestamp:
+        type: string
+    type: object
+  model.Sms:
+    properties:
+      body:
+        example: |-
+          This is a body of the message.
+
+          Best regards.
+        type: string
+      to:
+        example: "79770010101"
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a mailer server that provides an API for sending emails and SMS.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Mailer Rest API
+  version: "1.0"
+paths:
+  /email:
+    post:
+      consumes:
+      - application/json
+      description: Send an email
+      parameters:
+      - description: Email message
+        in: body
+        name: email
+        required: true
+        schema:
+          $ref: '#/definitions/model.Email'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Send an email
+      tags:
+      - email
+  /sms:
+    post:
+      consumes:
+      - application/json
+      description: Send an sms. You will get sms id in response `payload`
+      parameters:
+      - description: Sms message
+        in: body
+        name: sms
+        required: true
+        schema:
+          $ref: '#/definitions/model.Sms'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Send an sms
+      tags:
+      - sms
+  /smsStatus/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get sms status. Result will be placed in response `payload`
+      parameters:
+      - description: ID of the sms
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.GlobalResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get sms status
+      tags:
+      - sms
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,239 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a mailer server that provides an API for sending emails and SMS.",
+        "title": "Mailer Rest API",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/email": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Send an email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "email"
+                ],
+                "summary": "Send an email",
+                "parameters": [
+                    {
+                        "description": "Email message",
+                        "name": "email",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Email"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sms": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Send an sms. You will get sms id in response `payload`",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sms"
+                ],
+                "summary": "Send an sms",
+                "parameters": [
+                    {
+                        "description": "Sms message",
+                        "name": "sms",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Sms"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/smsStatus/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get sms status. Result will be placed in response `payload`",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sms"
+                ],
+                "summary": "Get sms status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of the sms",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.GlobalResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Email": {
+            "type": "object",
+            "properties": {
+                "attachments": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "bcc": {
+                    "type": "string",
+                    "example": "secret_user@server.ru;secret_user2@server.ru"
+                },
+                "body": {
+                    "type": "string",
+                    "example": "This is a body of the message.\n\nBest regards."
+                },
+                "cc": {
+                    "type": "string",
+                    "example": "copy_user@server.ru;copy_user2@server.ru"
+                },
+                "from": {
+                    "type": "string",
+                    "example": "user@server.ru"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Hi there!"
+                },
+                "to": {
+                    "type": "string",
+                    "example": "recipient1@server.ru;recipient2@server.ru"
+                }
+            }
+        },
+        "model.GlobalResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "object"
+                },
+                "payload": {
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Sms": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string",
+                    "example": "This is a body of the message.\n\nBest regards."
+                },
+                "to": {
+                    "type": "string",
+                    "example": "79770010101"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

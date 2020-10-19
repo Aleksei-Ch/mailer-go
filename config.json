@@ -1,0 +1,23 @@
+{
+    "log": {
+        "logDir": "./logs/",
+        "logLevel": "INFO",
+        "logRotationDays": 2
+    },
+    "mail": {
+        "server": "smtp.server.com",
+        "port": 587,
+        "user": "",
+        "password": ""
+    },
+    "sms": {
+        "from": "from",
+        "login": "user",
+        "password": "password"
+    },
+    "proxy": {
+        "enabled": false,
+        "host": "localhost",
+        "port": 3127
+    }
+}
