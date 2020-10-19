@@ -1,6 +1,7 @@
 package email
 
 import (
+	"encoding/base64"
 	"fmt"
 	"mailer/config"
 	log "mailer/logger"
@@ -35,7 +36,9 @@ func SendEmail(email *model.Email) {
 	msg += fmt.Sprintf("Content-Type: multipart/mixed; boundary=\"%s\"\r\n", delimeter)
 
 	msg += fmt.Sprintf("\r\n--%s\r\n", delimeter)
-	msg += email.Body
+	msg += "Content-Type: text/plain; charset=\"UTF-8\"\r\n"
+	msg += "Content-Transfer-Encoding: base64\r\n"
+	msg += "\r\n" + base64.StdEncoding.EncodeToString([]byte(email.Body))
 
 	if len(email.Attachments) > 0 {
 		for name, body := range email.Attachments {
