@@ -1,7 +1,6 @@
 package config
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"mailer/model"
@@ -21,9 +20,8 @@ func Init() model.Config {
 	// Setup proxy
 	if c.Proxy.Enabled {
 		os.Setenv("HTTP_PROXY", fmt.Sprintf("%s:%v", c.Proxy.Host, c.Proxy.Port))
-		if c.Proxy.User != "" {
-			os.Setenv("HTTP_PROXY_AUTH", base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.Proxy.User, c.Proxy.Pass))))
-		}
+	} else {
+		os.Setenv("HTTP_PROXY", "")
 	}
 	return c
 }

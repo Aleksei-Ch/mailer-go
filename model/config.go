@@ -23,7 +23,5 @@ type Config struct {
 		Enabled bool   `json:"enabled"`
 		Host    string `json:"host"`
 		Port    int32  `json:"port"`
-		User    string `json:"user"`
-		Pass    string `json:"password"`
 	} `json:"proxy"`
 }

@@ -343,15 +343,8 @@ func (s *Client) call(ctx context.Context, soapAction string, request, response 
 
 	proxy := os.Getenv("HTTP_PROXY")
 	var url *url.URL
-	var proxyHdr http.Header
 	if proxy != "" {
 		url, _ = url.Parse(proxy)
-		proxyAuth := os.Getenv("HTTP_PROXY_AUTH")
-		if proxyAuth != "" {
-			basicAuth := "Basic " + proxyAuth
-			proxyHdr = http.Header{}
-			proxyHdr.Add("Proxy-Authorization", basicAuth)
-		}
 	}
 
 	client := s.opts.client
@@ -363,7 +356,6 @@ func (s *Client) call(ctx context.Context, soapAction string, request, response 
 				return d.DialContext(ctx, network, addr)
 			},
 			Proxy:               http.ProxyURL(url),
-			ProxyConnectHeader:  proxyHdr,
 			TLSHandshakeTimeout: s.opts.tlshshaketimeout,
 		}
 		client = &http.Client{Timeout: s.opts.contimeout, Transport: tr}
