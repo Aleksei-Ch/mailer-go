@@ -20,6 +20,7 @@ func Init() model.Config {
 	// Setup proxy
 	if c.Proxy.Enabled {
 		os.Setenv("HTTP_PROXY", fmt.Sprintf("%s:%v", c.Proxy.Host, c.Proxy.Port))
+		os.Setenv("HTTPS_PROXY", fmt.Sprintf("%s:%v", c.Proxy.Host, c.Proxy.Port))
 	}
 	return c
 }

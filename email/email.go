@@ -62,6 +62,16 @@ func SendEmail(email *model.Email) {
 				log.Error(err)
 				return
 			}
+			if err = client.Mail(email.From); err != nil {
+				log.Error(err)
+				return
+			}
+			for _, addr := range strings.Split(email.To, ";") {
+				if err = client.Rcpt(addr); err != nil {
+					log.Error(err)
+					return
+				}
+			}
 
 			writer, err := client.Data()
 			if err != nil {
