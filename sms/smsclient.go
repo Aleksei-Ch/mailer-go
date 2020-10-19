@@ -19,7 +19,7 @@ var (
 
 func init() {
 	conf = config.Init()
-	c = soap.NewClient("https://ws-wsdl.devinotele.com/smsservice.asmx",
+	c = soap.NewClient("http://ws-wsdl.devinotele.com/smsservice.asmx",
 		soap.WithTimeout(time.Minute),
 	)
 	s = NewSmsServiceSoap(c)
